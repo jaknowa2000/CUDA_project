@@ -1,3 +1,4 @@
+*.o
 script
 *.out
 __pycache__/
