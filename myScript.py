@@ -16,6 +16,10 @@ test_passed = 0
 def stats(nist_X, my_X, used_file, n):
     global test_failed
     global test_passed
+    if (test_passed % 100 == 0 and test_passed > 0):
+        print("Test passed: ", test_passed)
+    if (test_failed % 100 == 0 and test_failed > 0):
+        print("Test failed: ", test_failed)
     if fabs(nist_X-my_X) > 0.01:
         test_failed += 1
         print("My_X: ", my_X)
@@ -29,7 +33,7 @@ def stats(nist_X, my_X, used_file, n):
 
 def test_every_file_new():
     used_file = "my_random.dat"
-    for i in range(3):
+    for i in range(1000):
         n = str(randint(128, 100000))
         subprocess.run(["python3", "./myGeneratorofFiles.py"])
         my_X = float(subprocess.run(["./script", n, "../../data/my_random.dat", str(1)], capture_output=True).stdout)
@@ -40,7 +44,7 @@ def test_every_file_new():
 
 def test_one_file():
     used_file = "my_random.dat"
-    for i in range(3):
+    for i in range(1000):
         n = str(randint(128, 1000000))
         my_X = float(subprocess.run(["./script", n, "../../data/my_random.dat", str(1)], capture_output=True).stdout)
         subprocess.run(["./assess", n], input=path_static.encode(), capture_output=True,  cwd="/home/jnowakowski/domowy/NIST-Statistical-Test-Suite/sts")
@@ -53,7 +57,7 @@ def test_nist_files():
                     "data.bad_rng", "data.pi", "data.sqrt2"]
     for nist_file in nist_files:
         path_dynamic = "0"+"\n"+"/home/jnowakowski/domowy/NIST-Statistical-Test-Suite/sts/data/"+nist_file+"\n"+"0"+"\n"+"000010000000000"+"\n"+"10"+"\n"+"1"
-        for i in range(2):
+        for i in range(1000):
             n = str(randint(128, 1000000))
             my_X = float(subprocess.run(["./script", n, "../../data/"+nist_file, str(1)], capture_output=True).stdout)
             subprocess.run(["./assess", n], input=path_dynamic.encode(), capture_output=True, cwd="/home/jnowakowski/domowy/NIST-Statistical-Test-Suite/sts")

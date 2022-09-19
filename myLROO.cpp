@@ -1,6 +1,7 @@
 #include <iostream>
 #include <math.h>   
 #include <string>
+#include <vector>
 
 #include "myLROO.h"
 
@@ -36,7 +37,7 @@ int specify_type(int n){
     return type;
 }
 
-double myLongestRunOfOnes(int n, bool data[]){
+double myLongestRunOfOnes(int n, vector<int> data){
     int K, M, N,type;
     double v_measured[7] = {0}, X = 0; 
     type = specify_type(n);

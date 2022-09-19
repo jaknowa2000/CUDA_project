@@ -3,10 +3,11 @@
 #include <iostream>
 #include <math.h>   
 #include <string>
+#include <vector>
 
 using namespace std;
 
 int specify_type(int n);
-double myLongestRunOfOnes(int n, bool data[]);
+double myLongestRunOfOnes(int n, vector<int> data);
 
 #endif

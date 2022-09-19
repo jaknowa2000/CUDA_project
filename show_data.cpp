@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include "show_data.h"
 #include "myLROO.h"
@@ -8,8 +9,8 @@ using namespace std;
 
 const int M_c[3] = {8, 128, 10000};
 
-void extract_bits(int n, bool data[], int start, int len){
-    cout<<endl<<"FUNKCJA EXTRACT BITS: "<<endl;
+void extract_bits(int n, vector<int> data, int start, int len){
+    cout<<endl<<"FUNKCJA EXTRACT BITS: "<<endl<<endl;
     if (start > n){
         cout<<"ERROR";
     }
@@ -22,11 +23,11 @@ void extract_bits(int n, bool data[], int start, int len){
     for (int i=start-1; i<start+len-1; i++){
         cout<<data[i];
     }
-    cout<<endl;
+    cout<<endl<<endl;
 }
 
-void print_data(int n, bool data[]){
-    cout<<endl<<"FUNKCJA PRINT DATA: "<<endl;
+void print_data(int n, vector<int> data){
+    cout<<endl<<"FUNKCJA PRINT DATA: "<<endl<<endl;
     int type = specify_type(n);
     int M = M_c[type];
     int N = n/M;

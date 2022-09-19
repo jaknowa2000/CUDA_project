@@ -9,7 +9,7 @@
 
 using namespace std;
 
-bool * read_file(string path){
+vector<int> read_file(string path){
     ifstream infile;
     infile.open(path, ios::binary | ios::in);
     if( infile.good() == true )
@@ -17,9 +17,9 @@ bool * read_file(string path){
         infile.seekg(0, std::ios::end);
         size_t n_bytes = infile.tellg();
         infile.seekg(0, std::ios::beg);
-        char * bufor = new char[n_bytes];
-        bool * data = new bool[n_bytes*8];
-        infile.read(bufor, n_bytes);
+        vector<char> bufor(n_bytes);
+        vector<int> data(n_bytes*8);
+        infile.read(bufor.data(), n_bytes);
         if(not infile) cout<<"Error - zabraklo danych do wczytania"<<endl;
         for (int i=0; i<n_bytes; i++){
             for(int j = 0; j < 8; j++) {
@@ -27,12 +27,13 @@ bool * read_file(string path){
             }
         }
         infile.close();
-        delete[] bufor;
+        bufor.clear();
         return data;
     } else {
         cout<<"Dostep do pliku zostal zabroniony!"<<endl;
         cout<<"Path: '"<<path<<"'"<<endl;
-        return 0;
+        vector<int> error(1,0);
+        return error;
     }
 }
 
@@ -57,10 +58,10 @@ vector<string> file_names(string path, string extension){
     return names;
 }
 
-vector<bool *> read_all_files(vector<string> list_files, string part_of_path){
+vector<vector<int>> read_all_files(vector<string> list_files, string part_of_path){
     string path;
-    vector<bool *> list_of_data;
-    bool * data = new bool;
+    vector<vector<int>> list_of_data;
+    vector<int> data;
     for (int i=0; i<list_files.size(); i++){
         path = part_of_path + list_files[i];
         data = read_file(path);
