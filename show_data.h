@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void extract_bits(int n, vector<int> data, int start, int len);
-void print_data(int n, vector<int> data);
+void extract_bits(int n, vector<uint8_t> data, int start, int len);
+void print_data(int n, vector<uint8_t> data);
 
 #endif

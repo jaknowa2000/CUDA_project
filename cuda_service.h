@@ -17,5 +17,7 @@
 using namespace std;      
         
 vector<double> cuda_service();
+vector<double> cpu_service();
+void comparison();
 
 #endif

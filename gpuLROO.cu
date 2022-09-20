@@ -36,7 +36,7 @@ __device__ int gpu_specify_type(int n){
     return type;
 }
 
-__device__ double gpuLongestRunOfOnes(int n, int data[]){
+__device__ double gpuLongestRunOfOnes(int n, uint8_t data[]){
     int K, M, N,type;
     double v_measured[7] = {0}, X = 0; 
     type = gpu_specify_type(n);
@@ -84,7 +84,7 @@ __device__ double gpuLongestRunOfOnes(int n, int data[]){
     return X;
 }
 
-__global__ void gpu(int *a, double *b, int z, int n) {
+__global__ void gpu(uint8_t *a, double *b, int z, int n) {
   int i = blockIdx.x * blockDim.x + threadIdx.x;
   if(i<z) b[i] = gpuLongestRunOfOnes(n, &a[i*n]);
 }

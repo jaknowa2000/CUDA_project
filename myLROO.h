@@ -8,6 +8,6 @@
 using namespace std;
 
 int specify_type(int n);
-double myLongestRunOfOnes(int n, vector<int> data);
+double myLongestRunOfOnes(int n, vector<uint8_t> data);
 
 #endif

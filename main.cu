@@ -12,8 +12,6 @@
 #include "myLROO.h"
 #include "gpuLROO.h"
 #include "cuda_service.h"
-#include "../../include/cephes.h" 
-#include "../../include/externs.h"
 
 #include <algorithm>
 #include <cassert>
@@ -28,20 +26,20 @@ int main(int argc, char** argv) {
     int n;
     if (objective == 1){
         n=strtol(argv[3], NULL, 10);
-        vector<int> data;
+        vector<uint8_t> data;
         data = read_file(argv[2]);
         double X = myLongestRunOfOnes(n, data);
         printf("%f", X);
     }
     else if (objective == 2){
         tests();
-        vector<int> data = read_file(argv[2]);
+        vector<uint8_t> data = read_file(argv[2]);
         n=strtol(argv[3], NULL, 10);
         double X = myLongestRunOfOnes(n, data);
         printf("\nDLA DANYCH WEJSCIOWYCH FUNKCJA X^2 WYNOSI: %f\n", X);
         print_data(n, data);
         extract_bits(n, data, 1, 8);
-        string path = "../../data/";
+        string path = "../NIST-Statistical-Test-Suite/sts/data/";
         string extension = ".dat";
         vector<string> list_names = file_names(path, extension);
         cout<<"FUNKCJA READ ALL FILES: (wyswietlam wszystkie pliki o rozszerzeniu: "<<extension<<")"<<endl<<endl;
@@ -49,7 +47,7 @@ int main(int argc, char** argv) {
             cout<<"\t"<<list_names[i]<<endl;
         }
         cout<<endl<<endl;
-        vector<vector<int>> list_of_data = read_all_files(list_names, path);
+        vector<vector<uint8_t>> list_of_data = read_all_files(list_names, path);
         for (int i=0; i<list_of_data.size(); i++){
             double X = myLongestRunOfOnes(n, list_of_data[i]);
             cout<<"DLA PLIKU: "<<list_names[i]<<" ORAZ N = "<<n<<" X^2 WYNOSI: ";
@@ -60,10 +58,7 @@ int main(int argc, char** argv) {
         data.clear();
     }
     else {
-        vector<double> result = cuda_service();
-        for(int i=0; i<10; i++){
-            cout<<"X["<<i<<"] = "<<result[i]<<endl;
-        }
+        comparison();
     }
     return 0;
 }

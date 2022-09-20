@@ -7,7 +7,6 @@ def generator(sciezka, liczba_liczb):
     plik.close()
 
 def main():
-    for i in range(100000):
-        generator("../NIST-Statistical-Test-Suite/sts/data2/random"+str(i)+".txt", 1000)
+        generator("../NIST-Statistical-Test-Suite/sts/data/my_random.dat", 200000)
 
 main()

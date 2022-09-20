@@ -37,7 +37,7 @@ int specify_type(int n){
     return type;
 }
 
-double myLongestRunOfOnes(int n, vector<int> data){
+double myLongestRunOfOnes(int n, vector<uint8_t> data){
     int K, M, N,type;
     double v_measured[7] = {0}, X = 0; 
     type = specify_type(n);
