@@ -37,7 +37,7 @@ int specify_type(int n){
     return type;
 }
 
-double myLongestRunOfOnes(int n, vector<uint8_t> data){
+double myLongestRunOfOnes(int n, vector<char> bufor){
     int K, M, N,type;
     double v_measured[7] = {0}, X = 0; 
     type = specify_type(n);
@@ -45,17 +45,23 @@ double myLongestRunOfOnes(int n, vector<uint8_t> data){
     K = K_c[type];
     N = n/M;
     int run, longest_run;
+    bool *data =  new bool[M * sizeof(bool)];
     for (int i=0; i<N; i++){
         run = 0;
         longest_run = 0;
+        for (int k=0; k<M/8; k++){
+            for(int j = 0; j < 8; j++) {
+                data[k*8+7-j] = ((bufor[(i*M)/8 + k] >> j) & 0x01);
+            }
+        }
         for (int j=0; j<M; j++){
-            if (data[i*M+j] == 1){
+            if (data[j] == 1){
                 run++;
             }
             if (longest_run < run){
                 longest_run = run;
             }
-            if (data[i*M+j] == 0){
+            if (data[j] == 0){
                 run = 0;
             }
         }
@@ -82,5 +88,6 @@ double myLongestRunOfOnes(int n, vector<uint8_t> data){
     for (int i=0; i<K+1; i++){
         X+= pow(v_measured[i] - N*pi[type][i], 2)/(N*pi[type][i]);
     }
+    delete[] data;
     return X;
 }

@@ -21,7 +21,7 @@ def stats(nist_X, my_X, used_file, n):
         print("Test passed: ", test_passed)
     if (test_failed % (n_range//10) == 0 and test_failed > 0):
         print("Test failed: ", test_failed)
-    if fabs(nist_X-my_X) > 0.01:
+    if fabs(nist_X-my_X) > 0.000001:
         test_failed += 1
         print("My_X: ", my_X)
         print("NIST_X: ", nist_X)
