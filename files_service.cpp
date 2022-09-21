@@ -16,13 +16,13 @@ vector<char> read_file(string path){
         infile.seekg(0, std::ios::end);
         size_t n_bytes = infile.tellg();
         infile.seekg(0, std::ios::beg);
-        vector<char> bufor(n_bytes);
-        infile.read(bufor.data(), n_bytes);
-        if(not infile) cout<<"Error - zabraklo danych do wczytania"<<endl;
+        vector<char> buffer(n_bytes);
+        infile.read(buffer.data(), n_bytes);
+        if(not infile) cout<<"Error - there was not enough data to load"<<endl;
         infile.close();
-        return bufor;
+        return buffer;
     } else {
-        cout<<"Dostep do pliku zostal zabroniony!"<<endl;
+        cout<<"Access to the file has been denied!"<<endl;
         cout<<"Path: '"<<path<<"'"<<endl;
         vector<char> err(1,0);
         return err;

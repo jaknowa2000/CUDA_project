@@ -49,7 +49,7 @@ vector<double> cuda_service(){
     checkCudaErrors(cudaEventElapsedTime(&milliseconds, start, stop));
     checkCudaErrors(cudaEventDestroy(start));
     checkCudaErrors(cudaEventDestroy(stop));
-    cout << "Czas testow na GPU: "<<milliseconds<<" ms" << endl;
+    cout << "Time of tests on the GPU: "<<milliseconds<<" ms" << endl;
     cudaFree(d_a);
     cudaFree(d_b);
     return result;
@@ -64,22 +64,23 @@ vector<double> cpu_service(){
         result.push_back(myLongestRunOfOnes(list_of_data[i].size(), list_of_data[i]));
     }
     auto end = chrono::steady_clock::now();
-    cout << "Czas testow na CPU: "<< chrono::duration_cast<chrono::milliseconds>(end - start).count()
+    cout << "Time of tests on the CPU: "<< chrono::duration_cast<chrono::milliseconds>(end - start).count()
          << " ms" << endl;
     return result;
 }
 
 void comparison(){
-    cout<<"----------------------------------------"<<endl<<endl;
+    cout<<"----------------------------------------"<<endl;
     vector<double> result1 = cuda_service();
     vector<double> result2 = cpu_service();
-    cout<<endl<<"----------------------------------------"<<endl;
+    cout<<"----------------------------------------"<<endl<<endl;
+    cout<<"----------------------------------------";
     int test_passed=0, test_failed=0;
     for(int i=0; i<result2.size(); i++){
         if(fabs(result1[i] - result2[i]) < 0.000001) test_passed++;
         else test_failed++;
     }
     cout<<endl<<"TEST PASSED: "<<test_passed<<endl;
-    cout<<"TEST FAILED: "<<test_failed<<endl<<endl;
-    cout<<"----------------------------------------"<<endl;
+    cout<<"TEST FAILED: "<<test_failed<<endl;
+    cout<<"----------------------------------------"<<endl<<endl;
 }

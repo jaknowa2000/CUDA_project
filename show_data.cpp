@@ -10,8 +10,8 @@ using namespace std;
 const int M_c[3] = {8, 128, 10000};
 
 void extract_bits(int n, vector<char> bufor, int start, int len){
-    cout<<endl<<"FUNKCJA EXTRACT BITS: (wyswietlam bity od "
-        <<start<<" do "<<start+len-1<<")"<<endl<<endl;
+    cout<<endl<<"FUNCTION EXTRACT BITS: (displaying bits from "
+        <<start<<" to "<<start+len-1<<")"<<endl<<endl;
     if (start > n){
         cout<<"ERROR";
     }
@@ -27,30 +27,27 @@ void extract_bits(int n, vector<char> bufor, int start, int len){
                 data[7-j] = ((bufor[i] >> j) & 0x01);
         }
         if (i == (start-1)/8){
-            //cout<<"ELŻBIETA"<<endl;
             for(int j = (start-1)%8; j < 8; j++) {
                     cout<<data[j];
             }
         }
         else if (i == ceil((start+len-1)/8.0) - 1){
-            //cout<<"PIERWSZA"<<endl;
             for(int j = 0; j <= (start+len-2)%8; j++) {
                     cout<<data[j];
             }
         }
         else{
-            //cout<<"KRÓLOWA"<<endl;
             for(int j = 0; j < 8; j++) {
                     cout<<data[j];
             }
         }
     }
     delete[] data;
-    cout<<endl<<endl;
+    cout<<endl;
 }
 
 void print_data(int n, vector<char> bufor){
-    cout<<endl<<"FUNKCJA PRINT DATA: "<<endl<<endl;
+    cout<<endl<<"FUNCTION PRINT DATA: "<<endl<<endl;
     int type = specify_type(n);
     int M = M_c[type];
     int N = n/M;

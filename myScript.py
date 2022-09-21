@@ -17,9 +17,9 @@ n_range = 100
 def stats(nist_X, my_X, used_file, n):
     global test_failed
     global test_passed
-    if (test_passed % (n_range//10) == 0 and test_passed > 0):
+    if (test_passed % (n_range//5) == 0 and test_passed > 0):
         print("Test passed: ", test_passed)
-    if (test_failed % (n_range//10) == 0 and test_failed > 0):
+    if (test_failed % (n_range//5) == 0 and test_failed > 0):
         print("Test failed: ", test_failed)
     if fabs(nist_X-my_X) > 0.000001:
         test_failed += 1
@@ -68,17 +68,22 @@ def test_nist_files():
 
 def main():
 
-    subprocess.run(["nvcc", "./main.cu", "./cuda_service.cu", "./gpuLROO.cu", "./files_service.cpp", "./show_data.cpp", "u_tests.cpp", "myLROO.cpp", "-dc"])
     subprocess.run(["nvcc", "./main.cu", "./cuda_service.cu", "./gpuLROO.cu", "./files_service.cpp", "./show_data.cpp", "u_tests.cpp", "myLROO.cpp", "-link", "-o", "script"])
-    
+
+    print("\n****************************************")
+    print("THIS PROGRAM COMPARE LROO TEST INPLEMENTED ON THE GPU WITH NIST REPOSITORY")
+    print("****************************************\n\n")
+
     start = time.time()
     test_every_file_new()
     test_one_file()
     test_nist_files()
     stop = time.time()
 
-    print("Test passed: ", test_passed)
-    print("Test failed: ", test_failed)
+    print("\n----------------------------------------")
+    print("TESTS PASSED: ", test_passed)
+    print("TESTS FAILED: ", test_failed)
     print(f"Measured time of a working program {stop-start} [s]")
+    print("----------------------------------------\n")
 
 main()
