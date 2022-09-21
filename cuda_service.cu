@@ -1,62 +1,54 @@
 #include <iostream>   
 #include <vector>
-#include <stdlib.h>
 #include <string>
-#include <memory>
 #include <chrono>
-#include <cuda_runtime.h>
 #include <cmath>
+
+#include "helper_cuda.h"
 
 #include "files_service.h"
 #include "gpuLROO.h"
 #include "myLROO.h"
 #include "cuda_service.h"
 
-#include <algorithm>
-#include <cassert>
-#include <cstdlib>
-#include <functional>
 
 using namespace std;    
 
-const string path = "../NIST-Statistical-Test-Suite/sts/data3/";
+const string path = "../NIST-Statistical-Test-Suite/sts/data/";
 const string extension = ".txt";
         
 vector<double> cuda_service(){
-    cudaError_t what;
-    int n;
+    int n, n_files, THREADS = 256, BLOCKS;
+    char *d_a;
+    double *d_b;
+    float milliseconds = 0;
     vector<string> list_names = file_names(path, extension);
     vector<vector<char>> list_of_data = read_all_files(list_names, path);
     vector<char> data_a;
     size_t bytes = 0;
+    cudaEvent_t start , stop ; 
+
     for (int i=0; i<list_of_data.size(); i++){
         data_a.insert(data_a.begin() + i*list_of_data[i].size(), list_of_data[i].begin(), list_of_data[i].end());  
         bytes = bytes + list_of_data[i].size() * sizeof(char);
     }
-    int n_files = list_of_data.size();
+    n_files = list_of_data.size();
     n = list_of_data[0].size();
-    char *d_a;
-    int THREADS = 256;
-    double *d_b;
-    what = cudaMalloc(&d_a, bytes);
-    what = cudaMalloc(&d_b, n_files * sizeof(double));
-    what = cudaMemcpy(d_a, data_a.data(), bytes, cudaMemcpyHostToDevice);
-    int BLOCKS = (n_files + THREADS - 1)/THREADS;
-    cudaEvent_t start , stop ; 
-    what = cudaEventCreate (& start ); 
-    what = cudaEventCreate (& stop );
-    what = cudaEventRecord(start);  
-    gpu<<<BLOCKS, THREADS>>>(d_a, d_b, n_files, n);
-    what = cudaEventRecord(stop);
+    BLOCKS = (n_files + THREADS - 1)/THREADS;
     vector<double> result(n_files * sizeof(double));
-    what = cudaMemcpy(result.data(), d_b, n_files * sizeof(double), cudaMemcpyDeviceToHost);
-    what = cudaDeviceSynchronize();
-    what = cudaEventSynchronize(stop);
-    float milliseconds = 0;
-    what = cudaEventElapsedTime(&milliseconds, start, stop);
-    cout<<"WHAT!: "<<what<<endl;
-    cudaEventDestroy(start);
-    cudaEventDestroy(stop);
+    checkCudaErrors(cudaMalloc(&d_a, bytes));
+    checkCudaErrors(cudaMalloc(&d_b, n_files * sizeof(double)));
+    checkCudaErrors(cudaMemcpy(d_a, data_a.data(), bytes, cudaMemcpyHostToDevice));
+    checkCudaErrors(cudaEventCreate (& start )); 
+    checkCudaErrors(cudaEventCreate (& stop ));
+    checkCudaErrors(cudaEventRecord(start));  
+    gpu<<<BLOCKS, THREADS>>>(d_a, d_b, n_files, n);
+    checkCudaErrors(cudaEventRecord(stop));
+    checkCudaErrors(cudaMemcpy(result.data(), d_b, n_files * sizeof(double), cudaMemcpyDeviceToHost));
+    checkCudaErrors(cudaEventSynchronize(stop));
+    checkCudaErrors(cudaEventElapsedTime(&milliseconds, start, stop));
+    checkCudaErrors(cudaEventDestroy(start));
+    checkCudaErrors(cudaEventDestroy(stop));
     cout << "Czas testow na GPU: "<<milliseconds<<" ms" << endl;
     cudaFree(d_a);
     cudaFree(d_b);
@@ -78,7 +70,7 @@ vector<double> cpu_service(){
 }
 
 void comparison(){
-    cout<<"----------------------------------------"<<endl;
+    cout<<"----------------------------------------"<<endl<<endl;
     vector<double> result1 = cuda_service();
     vector<double> result2 = cpu_service();
     cout<<endl<<"----------------------------------------"<<endl;
