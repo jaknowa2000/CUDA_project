@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
         double X = myLongestRunOfOnes(n, data);
         printf("\nDLA DANYCH WEJSCIOWYCH FUNKCJA X^2 WYNOSI: %f\n", X);
         print_data(n, data);
-        extract_bits(n, data, 1, 10);
+        extract_bits(n, data, 1, 11);
         string path = "../NIST-Statistical-Test-Suite/sts/data/";
         string extension = ".dat";
         vector<string> list_names = file_names(path, extension);

@@ -10,7 +10,8 @@ using namespace std;
 const int M_c[3] = {8, 128, 10000};
 
 void extract_bits(int n, vector<char> bufor, int start, int len){
-    cout<<endl<<"FUNKCJA EXTRACT BITS: "<<endl<<endl;
+    cout<<endl<<"FUNKCJA EXTRACT BITS: (wyswietlam bity od "
+        <<start<<" do "<<start+len-1<<")"<<endl<<endl;
     if (start > n){
         cout<<"ERROR";
     }
@@ -21,21 +22,24 @@ void extract_bits(int n, vector<char> bufor, int start, int len){
         start = 1;
     }
     bool *data =  new bool[8 * sizeof(bool)];
-    for (int i=(start-1)/8; i<ceil((start+len-1)/8); i++){
+    for (int i=(start-1)/8; i<ceil((start+len-1)/8.0); i++){
         for(int j = 0; j < 8; j++) {
                 data[7-j] = ((bufor[i] >> j) & 0x01);
         }
-        if (i == 0){
+        if (i == (start-1)/8){
+            //cout<<"ELŻBIETA"<<endl;
             for(int j = (start-1)%8; j < 8; j++) {
                     cout<<data[j];
             }
         }
-        else if (i == ceil((start+len-1)/8) - 1){
-            for(int j = 0; j < (start+len-1)%8; j++) {
+        else if (i == ceil((start+len-1)/8.0) - 1){
+            //cout<<"PIERWSZA"<<endl;
+            for(int j = 0; j <= (start+len-2)%8; j++) {
                     cout<<data[j];
             }
         }
         else{
+            //cout<<"KRÓLOWA"<<endl;
             for(int j = 0; j < 8; j++) {
                     cout<<data[j];
             }
