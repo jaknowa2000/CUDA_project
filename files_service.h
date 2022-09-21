@@ -1,11 +1,8 @@
 #ifndef FILES_SERVICE_H
 #define FILES_SERVICE_H
 #include <iostream> 
-#include <fstream>
 #include <vector>
-#include <stdlib.h>
 #include <string>
-#include <memory>
 
 using namespace std;
 

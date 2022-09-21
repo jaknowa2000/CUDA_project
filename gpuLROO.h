@@ -1,9 +1,6 @@
 #ifndef GPULROO_H
 #define GPULROO_H
 #include <iostream>
-#include <math.h>   
-#include <string>
-#include <vector>
 
 using namespace std;
 

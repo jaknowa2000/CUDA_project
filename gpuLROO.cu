@@ -1,7 +1,4 @@
-#include <iostream>
 #include <math.h>   
-#include <string>
-#include <vector>
 
 #include "myLROO.h"
 
@@ -93,5 +90,5 @@ __device__ double gpuLongestRunOfOnes(int n, char bufor[]){
 
 __global__ void gpu(char *a, double *b, int z, int n) {
   int i = blockIdx.x * blockDim.x + threadIdx.x;
-  if(i<z) b[i] = gpuLongestRunOfOnes(n, &a[i*n]);
+  if(i < z) b[i] = gpuLongestRunOfOnes(n, &a[i*n]);
 }

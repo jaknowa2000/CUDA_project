@@ -1,7 +1,6 @@
 #include <iostream> 
 #include <fstream>
 #include <vector>
-#include <stdlib.h>
 #include <string>
 #include <memory>
 
@@ -18,23 +17,15 @@ vector<char> read_file(string path){
         size_t n_bytes = infile.tellg();
         infile.seekg(0, std::ios::beg);
         vector<char> bufor(n_bytes);
-        //vector<char> data(n_bytes*8);
         infile.read(bufor.data(), n_bytes);
         if(not infile) cout<<"Error - zabraklo danych do wczytania"<<endl;
-        //for (int i=0; i<n_bytes; i++){
-        //    for(int j = 0; j < 8; j++) {
-        //        data[i*8+7-j] = ((bufor[i] >> j) & 0x01);
-        //    }
-        //}
         infile.close();
-        //bufor.clear();
-        //data.clear();
         return bufor;
     } else {
         cout<<"Dostep do pliku zostal zabroniony!"<<endl;
         cout<<"Path: '"<<path<<"'"<<endl;
-        vector<char> error(1,0);
-        return error;
+        vector<char> err(1,0);
+        return err;
     }
 }
 

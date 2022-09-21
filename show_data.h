@@ -1,7 +1,6 @@
 #ifndef SHOW_DATA_H
 #define SHOW_DATA_H
 #include <iostream>
-#include <string>
 #include <vector>
 
 using namespace std;

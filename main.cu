@@ -1,22 +1,11 @@
-#include <iostream>
-#include <math.h>   
-#include <fstream>
+#include <iostream>  
 #include <vector>
-#include <stdlib.h>
 #include <string>
-#include <memory>
 
 #include "u_tests.h"
 #include "files_service.h"
 #include "show_data.h"
-#include "myLROO.h"
-#include "gpuLROO.h"
 #include "cuda_service.h"
-
-#include <algorithm>
-#include <cassert>
-#include <cstdlib>
-#include <functional>
 
 using namespace std;
 
@@ -26,15 +15,14 @@ int main(int argc, char** argv) {
     int n;
     if (objective == 1){
         n=strtol(argv[3], NULL, 10);
-        vector<char> data;
-        data = read_file(argv[2]);
+        vector<char> data = read_file(argv[2]);
         double X = myLongestRunOfOnes(n, data);
         printf("%f", X);
     }
     else if (objective == 2){
         tests();
         vector<char> data = read_file(argv[2]);
-        n=strtol(argv[3], NULL, 10);
+        n = strtol(argv[3], NULL, 10);
         double X = myLongestRunOfOnes(n, data);
         printf("\nDLA DANYCH WEJSCIOWYCH FUNKCJA X^2 WYNOSI: %f\n", X);
         print_data(n, data);

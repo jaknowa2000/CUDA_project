@@ -9,8 +9,7 @@ using namespace std;
 
 
 void test(int n, string path, double exp_val, int number){
-    vector<char> data;
-    data = read_file(path);
+    vector<char> data = read_file(path);
     double X = myLongestRunOfOnes(n, data);
     data.clear();
     if (abs(X-exp_val)<0.1) cout<<"TEST-"<<number<<" PASSED"<<endl;
