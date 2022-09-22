@@ -1,5 +1,5 @@
-#ifndef GPULROO_H
-#define GPULROO_H
+#ifndef GPU_LROO_H
+#define GPU_LROO_H
 #include <iostream>
 
 using namespace std;

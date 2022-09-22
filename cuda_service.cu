@@ -7,8 +7,8 @@
 #include "helper_cuda.h"
 
 #include "files_service.h"
-#include "gpuLROO.h"
-#include "myLROO.h"
+#include "gpu_LROO.h"
+#include "my_LROO.h"
 #include "cuda_service.h"
 
 

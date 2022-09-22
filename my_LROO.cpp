@@ -1,24 +1,27 @@
+#include <iostream>
 #include <math.h>   
+#include <vector>
 
-#include "myLROO.h"
+#include "my_LROO.h"
 
 using namespace std;
 
-__device__ const double pi[3][7] = {{0.21484375, 0.3671875, 0.23046875, 0.1875},
+const double pi[3][7] = {{0.21484375, 0.3671875, 0.23046875, 0.1875},
                          {0.1174035788, 0.242955959, 0.249363483,
                           0.17517706, 0.102701071, 0.112398847},
                          {0.0882, 0.2092, 0.2483, 0.1933, 0.1208,
                           0.0675, 0.0727}};
 
-__device__ const int v[3][7] = {{1, 2, 3, 4}, {4, 5, 6, 7, 8, 9}, 
+const int v[3][7] = {{1, 2, 3, 4}, {4, 5, 6, 7, 8, 9}, 
                      {10, 11, 12, 13, 14, 15, 16}};
 
-__device__ const int M_c[3] = {8, 128, 10000};
-__device__ const int K_c[3] = {3, 5, 6};
+const int M_c[3] = {8, 128, 10000};
+const int K_c[3] = {3, 5, 6};
 
-__device__ int gpu_specify_type(int n){
+int specify_type(int n){
     int type;
     if (n < 128){
+        cout<<"Too short stream of bits"<<endl;
         return -1;
     }
     else if (n < 6272){
@@ -33,10 +36,10 @@ __device__ int gpu_specify_type(int n){
     return type;
 }
 
-__device__ double gpuLongestRunOfOnes(int n, char bufor[]){
+double myLongestRunOfOnes(int n, vector<char> bufor){
     int K, M, N,type;
     double v_measured[7] = {0}, X = 0; 
-    type = gpu_specify_type(n);
+    type = specify_type(n);
     M = M_c[type];
     K = K_c[type];
     N = n/M;
@@ -80,15 +83,10 @@ __device__ double gpuLongestRunOfOnes(int n, char bufor[]){
     for (int i=0; i<K+1; i++){
         sum_control += v_measured[i];
     }
-    if (sum_control != N) return -1;
+    if (sum_control != N) cout<<"Error - sum control incorrect";
     for (int i=0; i<K+1; i++){
         X+= pow(v_measured[i] - N*pi[type][i], 2)/(N*pi[type][i]);
     }
     delete[] data;
     return X;
-}
-
-__global__ void gpu(char *a, double *b, int z, int n) {
-  int i = blockIdx.x * blockDim.x + threadIdx.x;
-  if(i < z) b[i] = gpuLongestRunOfOnes(n, &a[i*n]);
 }

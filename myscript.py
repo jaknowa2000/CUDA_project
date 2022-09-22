@@ -12,14 +12,14 @@ import generatorforscript
 path_static = "0"+"\n"+"data/my_random.dat"+"\n"+"0"+"\n"+"000010000000000"+"\n"+"10"+"\n"+"1"
 test_failed = 0
 test_passed = 0
-n_range = 100
+n_range = 1000
 
 def stats(nist_X, my_X, used_file, n):
     global test_failed
     global test_passed
-    if (test_passed % (n_range//5) == 0 and test_passed > 0):
+    if (test_passed % (n_range//2) == 0 and test_passed > 0):
         print("Test passed: ", test_passed)
-    if (test_failed % (n_range//5) == 0 and test_failed > 0):
+    if (test_failed % (n_range//2) == 0 and test_failed > 0):
         print("Test failed: ", test_failed)
     if fabs(nist_X-my_X) > 0.000001:
         test_failed += 1
@@ -68,7 +68,7 @@ def test_nist_files():
 
 def main():
 
-    subprocess.run(["nvcc", "./main.cu", "./cuda_service.cu", "./gpuLROO.cu", "./files_service.cpp", "./show_data.cpp", "u_tests.cpp", "myLROO.cpp", "-link", "-o", "script"])
+    subprocess.run(["nvcc", "./main.cu", "./cuda_service.cu", "./gpu_LROO.cu", "./files_service.cpp", "./show_data.cpp", "u_tests.cpp", "my_LROO.cpp", "-link", "-o", "script"])
 
     print("\n****************************************")
     print("THIS PROGRAM COMPARE LROO TEST INPLEMENTED ON THE GPU WITH NIST REPOSITORY")
